@@ -3,7 +3,6 @@ require 'optparse'
 require 'ostruct'
 require 'google/apis/blogger_v3'
 require 'google/api_client/client_secrets'
-require 'logger'
 require 'json'
 require 'launchy'
 
