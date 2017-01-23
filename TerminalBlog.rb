@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'rubygems'
 require 'optparse'
 require 'ostruct'
@@ -73,8 +75,9 @@ else
 end
 
 # initialize blogger service
-blogger = Google::Apis::BloggerV3::BloggerService.new
-blogger.authorization = auth_client
+Blogger = Google::Apis::BloggerV3
+service = Blogger::BloggerService.new
+service.authorization = auth_client
 
 # open file
 begin
@@ -95,8 +98,9 @@ body = {
 
 # post to Blogger service
 begin
-	post = blogger.posts.insert(blogId=blogId,body=body,isDraft=isDraft)
+	post = service.insert_post(blogId, post_object = body, is_draft: isDraft)
 rescue Exception => e
+	puts e
 	abort("Google didn't like our post :(")
 end
 
