@@ -95,11 +95,12 @@ body = {
 
 # post to Blogger service
 begin
-	post = blogger.Posts.insert(blogId=blogId,body=body,isDraft=isDraft).execute
+	post = blogger.posts.insert(blogId=blogId,body=body,isDraft=isDraft)
 rescue Exception => e
 	abort("Google didn't like our post :(")
 end
 
+# display posts metadata
 puts "Title: %s" % post['title']
 puts "isDraft: %s" % isDraft
 if isDraft == false
