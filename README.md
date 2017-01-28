@@ -4,8 +4,8 @@ Create a blogpost in Blogger from the terminal. A Ruby app.
 
 # Requirements:
 
-    Your Blog Id
-    A .txt file containing the blog post (which can be optionally html-formatted)
+    1. Your Blog Id
+    2. A .txt file containing the blog post (which can be optionally html-formatted)
 
 # Instructions:
     $ ruby TerminalBlog.rb -f path/to/file -t "title of post" -l "label, for, post) [--publish]
