@@ -1,6 +1,6 @@
 # TerminalBlog
 
-# Create a blogpost in Blogger from the terminal. A Ruby app.
+Create a blogpost in Blogger from the terminal. A Ruby app.
 
 # Requirements:
 
