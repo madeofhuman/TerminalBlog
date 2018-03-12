@@ -24,10 +24,22 @@ class TerminalBlog
 	@service = nil
 	@args = ARGV
 
+	def self.main
+		tblog
+		argvCheck
+		requireTitle(@isDraft,@title)
+		authenticate
+		readFile
+		buildLabelList
+		buildBodyObject
+		getBlogId
+		postToBloggerService
+		displayPostsMetadata
+	end
+
 	def self.getBlogId
 		print "Enter your blogId: "
 		@blogId = STDIN.gets.to_i
-		postToBloggerService
 	end
 
 	def self.argvCheck
@@ -61,7 +73,6 @@ class TerminalBlog
 			end
 			opt.on('Example: TerminalBlog.rb -f path/to/file.txt -t "Terminal Post" -l "terminal, post" --publish')
 		end.parse!
-		requireTitle(@isDraft,@title)
 	end
 
 	def self.requireTitle(draft,title)
@@ -70,7 +81,6 @@ class TerminalBlog
 		if draft == false && title == 'Default Title'
 			abort("You must provide a title if you want to publish.")
 		end
-		authenticate
 	end
 
 	def self.authenticate
@@ -107,7 +117,6 @@ class TerminalBlog
 		@Blogger = Google::Apis::BloggerV3
 		@service = @Blogger::BloggerService.new
 		@service.authorization = authClient
-		readFile
 	end
 
 	def self.readFile
@@ -118,14 +127,12 @@ class TerminalBlog
 		rescue Exception => e
 			abort("Error opening file. Aborting...")
 		end
-		buildLabelList
 	end
 
 	def self.buildLabelList
 		puts "...attaching labels..."
 		wait
 		@labels_list = @labels.split(',')
-		buildBodyObject
 	end
 
 	def self.buildBodyObject
@@ -136,7 +143,6 @@ class TerminalBlog
 			"title": @title,
 			"labels": @labels_list
 		}
-		getBlogId
 	end
 
 	def self.postToBloggerService
@@ -147,7 +153,6 @@ class TerminalBlog
 		rescue Exception => e
 			abort("Google didn't like our post :(")
 		end
-		displayPostsMetadata
 	end
 
 	def self.displayPostsMetadata
@@ -168,8 +173,7 @@ class TerminalBlog
 	def self.tblog
 		puts "...initializing..."
 		wait
-		argvCheck
 	end
 
-	tblog
+  main
 end
